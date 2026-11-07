@@ -1,0 +1,1 @@
+"""Paquete psi_lab."""

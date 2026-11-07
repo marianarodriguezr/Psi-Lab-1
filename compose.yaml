@@ -1,0 +1,16 @@
+services:
+  tests:
+    build:
+      context: .
+      target: dev
+    image: psi-lab:dev
+
+  lab1:
+    build:
+      context: .
+      target: dev
+    image: psi-lab:lab1
+    volumes:
+      - ./out:/app/out
+      - ./informe:/app/informe
+    command: ["python", "-m", "psi_lab.lab1.caso_imagen"]
