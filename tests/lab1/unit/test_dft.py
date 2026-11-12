@@ -1,6 +1,6 @@
 import numpy as np
 
-from psi_lab.lab1.dft import dft
+from psi_lab.lab1.dft import dft, idft
 
 rng = np.random.default_rng(0)
 # Test para comprobar dft.py
@@ -36,3 +36,10 @@ def test_dft_parseval():
     # Energia en el dominio de la frecuencia
     energy_freq = np.sum(np.abs(X)**2) / len(X)
     assert np.allclose(energy_time, energy_freq)
+
+#4. test de idft: la transformada inversa debe recuperar la señal original
+def test_idft_recuperacion():
+    x = rng.standard_normal(20)
+    X = dft(x) # Aqui se hace la transformada directa
+    x_recovered = idft(X) # Aqui se hace la transformada inversa
+    assert np.allclose(x, x_recovered) # Se verifican que sean iguales la señal original y la recuperada

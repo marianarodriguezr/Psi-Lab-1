@@ -15,3 +15,13 @@ def dft(x):
             X[k] += x[n]* np.exp(-2j * np.pi * k * n / N)
     return X
 
+
+def idft(X):
+    """ DFT inversa por definicion: O(n^2): x[n] = (1/N) sum_k X[k] exp (2j pi k n / N)."""
+    N = len(X)
+    x = np.zeros(N, dtype=complex) # Array de ceros para almacenar los resultados de la IDFT
+    for n in range (N):
+        for k in range(N):
+            x[n] += X[k]* np.exp(2j * np.pi * k * n / N)
+        x[n] /= N
+    return x
