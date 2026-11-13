@@ -1,6 +1,6 @@
 import numpy as np
 
-from psi_lab.lab1.dft import dft, idft
+from psi_lab.lab1.dft import dft, espectro, idft
 
 rng = np.random.default_rng(0)
 # Test para comprobar dft.py
@@ -43,3 +43,15 @@ def test_idft_recuperacion():
     X = dft(x) # Aqui se hace la transformada directa
     x_recovered = idft(X) # Aqui se hace la transformada inversa
     assert np.allclose(x, x_recovered) # Se verifican que sean iguales la señal original y la recuperada
+
+def test_espectro():
+    fs = 100
+    t = np.arange(1000) / fs
+    x = 3 * np.sin(2* np.pi * 10 * t) # Señal con 3 de amplitud y seno de 10 Hz
+    for v in ["rect", "hann", "hamming"]:
+        f, a = espectro(x, fs, ventana=v)
+        i = np.argmax(a)
+        assert np.isclose(f[i], 10)
+        assert np.isclose(a[i], 3)
+
+    
