@@ -7,6 +7,7 @@ import numpy as np
 
 from psi_lab.lab1.dft import dft, espectro
 
+
 # Tarea 2: punto 2
 # Comparacion de tiempos para dft y np.fft.fft
 def _tiempos(out_dir):
