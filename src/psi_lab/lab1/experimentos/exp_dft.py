@@ -7,7 +7,8 @@ import numpy as np
 
 from psi_lab.lab1.dft import dft, espectro
 
-
+# Tarea 2: punto 2
+# Comparacion de tiempos para dft y np.fft.fft
 def _tiempos(out_dir):
     """ Compara los tiempos de dft y np.fft.fft para N de distintos tamanos"""
 
@@ -62,7 +63,7 @@ def _tiempos(out_dir):
 
     plt.close()
 
-# Tarea 2: punto 2:
+# Tarea 2: punto 3
 # Resolucion
 def _resolucion(out_dir):
     """ Dos tonos de 50 y 52 Hz, fs = 1000 Hz, duraciones T e {0.25; 0.5; 1; 2} s"""
@@ -94,7 +95,7 @@ def _resolucion(out_dir):
     fig.savefig(os.path.join(out_dir, "resolucion_dft_graficos.png"))
     plt.close(fig)
 
-# Tarea 2: punto 3
+# Tarea 2: punto 4
 # Relleno con ceros
 def _relleno(out_dir):
     """Rellenos con ceros: T = 0.25 s con nfft = N y nfft = 8N"""
@@ -120,6 +121,8 @@ def _relleno(out_dir):
     fig.savefig(os.path.join(out_dir, "relleno_con_ceros_dft_grafico.png"))
     plt.close(fig)
 
+# Tarea 2: punto 5
+# Fuga y ventanas
 def _fuga(out_dir):
     """Fuga espectral: tono de 50 Hz de amplitud 1 y otro de 80 Hz de amplitud 10^-3
        Comparacion rectangular y Hann en dB"""
