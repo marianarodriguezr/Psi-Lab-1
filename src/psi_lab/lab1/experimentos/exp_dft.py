@@ -5,7 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
-from psi_lab.lab1.dft import dft
+from psi_lab.lab1.dft import dft, espectro
 
 
 def _tiempos(out_dir):
@@ -63,12 +63,45 @@ def _tiempos(out_dir):
     plt.close()
 
 
+def _resolucion(out_dir):
+    """ Dos tonos de 50 y 52 Hz, fs = 1000 Hz, duraciones T e {0.25; 0.5; 1; 2} s"""
+    # Se crea el arreglo con las seniales
+    frecuencias = []
+    amplitudes = []
+    fs = 1000
+    T = [0.25, 0.5, 1, 2]
+    for Ti in T:
+        N = int(Ti * fs)
+        t = np.arange(N)/fs # Arreglos de tiempos
+        x = np.sin(2* np.pi * 50 * t) + np.sin(2* np.pi * 52 *t)
+         # Se llama a la funcion espectro con fs=1000 y el arreglo de seniales x
+        freq, amp = espectro(x, fs)
+        frecuencias.append(freq)
+        amplitudes.append(amp)
+
+    # Se genera el grafico
+    fig, graf = plt.subplots(4, 1, figsize=(10, 10))
+    for i in range(4):
+        graf[i].plot(frecuencias[i], amplitudes[i], "o-")
+        graf[i].set_xlim(40, 65)
+        graf[i].set_xlabel("Frecuencia (Hz)")
+        graf[i].set_ylabel("Amplitud")
+        graf[i].set_title(f"Grafico para T={T[i]} s, Δf={1/T[i]:.2f} Hz")
+
+    fig.suptitle("Resolucion: tonos de 50 y 52 Hz con distintas duraciones")
+    fig.tight_layout() # Para que no se encimen los graficos
+    fig.savefig(os.path.join(out_dir, "resolucion_dft_graficos.png"))
+    plt.close(fig)
+
+
 # out_dir carpeta donde se van a guardar las figuras
 # Esta es la misma funcion para todos los exp
 def generar(out_dir="out"): 
     """Generar las figuras y tablas de esta seccion en out_dir"""
     os.makedirs(out_dir, exist_ok=True)
-    _tiempos(out_dir) 
+    _tiempos(out_dir)
+    _resolucion(out_dir)
+    
 
 # Ejecuta el archivo solo
 if __name__ == "__main__":
