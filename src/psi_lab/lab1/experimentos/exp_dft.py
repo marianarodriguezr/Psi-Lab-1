@@ -120,6 +120,32 @@ def _relleno(out_dir):
     fig.savefig(os.path.join(out_dir, "relleno_con_ceros_dft_grafico.png"))
     plt.close(fig)
 
+def _fuga(out_dir):
+    """Fuga espectral: tono de 50 Hz de amplitud 1 y otro de 80 Hz de amplitud 10^-3
+       Comparacion rectangular y Hann en dB"""
+    fs = 1000
+    N = 1024 # Recomendacion para visualizar la fuga
+    t = np.arange(N)/fs
+    x = np.sin(2*np.pi * 50 * t) + 1e-3 * np.sin(2*np.pi * 80 * t)
+    ventanas = ["rect", "hann"]
+    fig, graf = plt.subplots(len(ventanas), 1, figsize=(10, 10))
+
+    for i, v in enumerate(ventanas):
+        f, a = espectro(x, fs, ventana=v)
+        a_db = 20 * np.log10(np.maximum(a, 1e-12)/1.0) # Se pasa la amplitud a db
+        graf[i].plot(f, a_db, "o-")
+        graf[i].set_xlim(0, 150)
+        graf[i].set_ylim(-120, 5)
+        graf[i].axvline(80, color="gray", linestyle="--") # Donde se deberia encontrar el tono debil
+        graf[i].axhline(-60, color="gray", linestyle="--") # altura esperada 
+        graf[i].set_xlabel("Frecuencia (Hz)")
+        graf[i].set_ylabel("Amplitud (dB)")
+        graf[i].set_title(f"Grafico de fuga con ventana={v}")
+
+    fig.suptitle("Fuga y ventanas: Tonos de 50 y 80 Hz de amplitudes 1 y 1e-3 respectivamente con distintas ventanas")
+    fig.tight_layout()
+    fig.savefig(os.path.join(out_dir, "fuga_ventanas_dft_graficos.png"))
+    plt.close(fig)
 
 # out_dir carpeta donde se van a guardar las figuras
 # Esta es la misma funcion para todos los exp
@@ -129,6 +155,7 @@ def generar(out_dir="out"):
     _tiempos(out_dir)
     _resolucion(out_dir)
     _relleno(out_dir)
+    _fuga(out_dir)
     
 
 # Ejecuta el archivo solo
