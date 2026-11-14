@@ -62,7 +62,8 @@ def _tiempos(out_dir):
 
     plt.close()
 
-
+# Tarea 2: punto 2:
+# Resolucion
 def _resolucion(out_dir):
     """ Dos tonos de 50 y 52 Hz, fs = 1000 Hz, duraciones T e {0.25; 0.5; 1; 2} s"""
     # Se crea el arreglo con las seniales
@@ -93,6 +94,32 @@ def _resolucion(out_dir):
     fig.savefig(os.path.join(out_dir, "resolucion_dft_graficos.png"))
     plt.close(fig)
 
+# Tarea 2: punto 3
+# Relleno con ceros
+def _relleno(out_dir):
+    """Rellenos con ceros: T = 0.25 s con nfft = N y nfft = 8N"""
+    T = 0.25
+    fs = 1000
+    N = int(T*fs)
+    t = np.arange(N)/fs
+    x = np.sin(2*np.pi * 50* t) + np.sin(2*np.pi * 52 * t)
+    freq1, amp1 = espectro(x, fs)
+    freq2, amp2 = espectro(x, fs, nfft=8*N)
+    fig, graf = plt.subplots(figsize=(10, 5))
+    graf.plot(freq2, amp2, "-", label=f"T={T}s sin nfft=8N")
+    graf.plot(freq1, amp1, "o", markersize=5, label=f"T={T}s con nfft=N")
+    graf.set_xlim(30, 72)
+    graf.set_xlabel("Frecuencia (Hz)")
+    graf.set_ylabel("Amplitud")
+    graf.axvline(50, color="gray", linestyle="--")
+    graf.axvline(52, color="gray", linestyle="--")
+    fig.suptitle(f"Relleno con ceros: T={T}s y nfft=N vs nfft = 8N")
+    graf.legend()
+    graf.grid(True)
+    fig.tight_layout()
+    fig.savefig(os.path.join(out_dir, "relleno_con_ceros_dft_grafico.png"))
+    plt.close(fig)
+
 
 # out_dir carpeta donde se van a guardar las figuras
 # Esta es la misma funcion para todos los exp
@@ -101,6 +128,7 @@ def generar(out_dir="out"):
     os.makedirs(out_dir, exist_ok=True)
     _tiempos(out_dir)
     _resolucion(out_dir)
+    _relleno(out_dir)
     
 
 # Ejecuta el archivo solo
